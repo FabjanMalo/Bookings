@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookings.Application.DTOs.Users;
+namespace Bookings.Application;
 public class UserDto
 {
     public string FirstName { get; private set; }

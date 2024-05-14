@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Bookings.Application.Abstractions.Database;
-using Bookings.Domain.Apartments;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
