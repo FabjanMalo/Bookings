@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Apartments;
 public interface IApartmentRepository : IGenericRepository<Apartment>
 {
-
+    Task<bool> IsNameUnique(string name,CancellationToken cancellationToken); 
 }

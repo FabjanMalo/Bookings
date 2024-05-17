@@ -1,6 +1,7 @@
 ﻿using Bookings.Application.Apartments;
 using Bookings.Domain.Apartments;
 using Bookings.Infrastructure.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,13 @@ public class ApartmentRepository : GenericRepository<Apartment>, IApartmentRepos
     public ApartmentRepository(BookingsDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
+    }
+
+    public async Task<bool> IsNameUnique(string name, CancellationToken cancellationToken)
+    {
+        var isUnique = await _dbContext.Apartments
+            .Where(c => c.Name == name).ToListAsync(cancellationToken);
+
+        return !isUnique.Any();
     }
 }
