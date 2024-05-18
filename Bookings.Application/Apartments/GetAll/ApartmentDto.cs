@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Apartments.GetAll;
 public class ApartmentDto
 {
-    public Guid Id { get; set; }
-    public string Name { get; private set; }
-    public string Address { get; private set; }
-    public string Description { get; private set; }
+    public Guid Id { get; init; }
+    public string Name { get; init; }
+    public string Address { get; init; }
+    public string Description { get;  init; }
 }

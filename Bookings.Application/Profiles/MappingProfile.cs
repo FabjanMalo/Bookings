@@ -18,6 +18,9 @@ public class MappingProfile : Profile
 
         CreateMap<Apartment, ApartmentDetailDto>().ReverseMap();
 
+        CreateMap<Apartment, CreateApartmentDto>().ReverseMap();
+        
+
         CreateMap<User, UserDto>().ReverseMap();
 
 

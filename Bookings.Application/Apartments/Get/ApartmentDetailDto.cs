@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Apartments.Get;
 public class ApartmentDetailDto : ApartmentDto
 {
-    public decimal Price { get; private set; }
-    public decimal CleaningFee { get; private set; }
+    public decimal Price { get; init; }
+    public decimal CleaningFee { get; init; }
 
-    public List<Amenity> Amenities { get; private set; } = new();
+    public List<Amenity> Amenities { get; init; } = [];
 }
