@@ -26,7 +26,7 @@ public class ApartmentController(ISender _sender) : ControllerBase
     [HttpGet("{id}")]
 public async Task<IResult> Get(Guid id)
     {
-        var query = new GetApartmentQuery();
+        var query = new GetApartmentQuery{Id = id };
 
         var result = await _sender.Send(query);
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Bookings.Application.Apartments.Get;
 using Bookings.Application.Apartments.GetAll;
-using Bookings.Domain;
 using Bookings.Domain.Apartments;
+using Bookings.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

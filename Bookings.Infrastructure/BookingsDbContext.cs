@@ -2,6 +2,7 @@
 using Bookings.Domain;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
+using Bookings.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
@@ -14,9 +15,8 @@ public class BookingsDbContext : DbContext, IApplicationContext
 
     public DbSet<Apartment> Apartments => Set<Apartment>();
     public DbSet<BookingEntity> Bookings { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users => Set<User>();
     public DbSet<Review> Reviews { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

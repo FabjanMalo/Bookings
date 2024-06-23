@@ -29,6 +29,8 @@ public class DeleteApartmentCommandHandler(
 
         _apartmentRepository.Delete(apartment);
 
+        await _applicationContext.SaveChangesAsync(cancellationToken);
+
         return apartment.Id;
     }
 }

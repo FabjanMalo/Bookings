@@ -1,8 +1,10 @@
 ﻿using Bookings.Application.Abstractions.Database;
 using Bookings.Application.Apartments;
 using Bookings.Application.Contracts;
+using Bookings.Application.Users;
 using Bookings.Infrastructure.Apartments;
 using Bookings.Infrastructure.Contracts;
+using Bookings.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,8 @@ public static class InfrastructureServicesRegistration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
         services.AddScoped<IApartmentRepository, ApartmentRepository>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
 
         return services;
