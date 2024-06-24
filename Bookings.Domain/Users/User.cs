@@ -37,4 +37,9 @@ public class User
         return new User(id, userDto.FirstName, userDto.LastName,
             userDto.Email, userDto.Password, data);
     }
+    public void ChangePassword(string newPassword)
+    {
+        Password = newPassword;
+    }
+
 }

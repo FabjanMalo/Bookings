@@ -10,4 +10,5 @@ namespace Bookings.Application.Users;
 public interface IUserRepository : IGenericRepository<User>
 {
     Task<bool> IsEmailUnique(string email,CancellationToken cancellationToken);
+
 }

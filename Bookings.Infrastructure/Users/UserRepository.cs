@@ -25,4 +25,5 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
         return !isUnique.Any();
     }
+
 }

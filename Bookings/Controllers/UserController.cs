@@ -1,4 +1,5 @@
 ﻿using Bookings.Application;
+using Bookings.Application.Users.ChangePassword;
 using Bookings.Application.Users.Register;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Users;
@@ -21,5 +22,16 @@ public class UserController(ISender _sender) : ControllerBase
         var result = await _sender.Send(command);
 
         return Results.Ok(result);
+    }
+
+    [HttpPut]
+
+    public async Task<IResult> ChangePassword([FromBody] ChangePasswordUserDto userDto) {
+        
+        var command = new ChangePasswordCommand { ChangePasswordDto = userDto };
+    
+        var result = await _sender.Send(command);
+
+        return Results.NoContent();
     }
 }
