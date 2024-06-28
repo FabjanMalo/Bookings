@@ -14,7 +14,7 @@ public class BookingsDbContext : DbContext, IApplicationContext
     { }
 
     public DbSet<Apartment> Apartments => Set<Apartment>();
-    public DbSet<BookingEntity> Bookings { get; set; }
+    public DbSet<BookingEntity> Bookings => Set<BookingEntity>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Review> Reviews { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

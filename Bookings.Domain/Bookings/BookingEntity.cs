@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,32 @@ using System.Threading.Tasks;
 namespace Bookings.Domain.Bookings;
 public class BookingEntity
 {
+    public BookingEntity(Guid id,
+                         Guid userId,
+                         Guid apartmentId,
+                         DateTime start,
+                         DateTime end,
+                         decimal priceForPeriod,
+                         decimal cleaningFee,
+                         decimal amenitiesUpCharge,
+                         decimal totalPrice,
+                         BookingStatus status,
+                         DateTime createdOnUtc)
+    {
+        Id = id;
+        UserId = userId;
+        ApartmentId = apartmentId;
+        Start = start;
+        End = end;
+        PriceForPeriod = priceForPeriod;
+        CleaningFee = cleaningFee;
+        AmenitiesUpCharge = amenitiesUpCharge;
+        TotalPrice = totalPrice;
+        Status = status;
+        CreatedOnUtc = createdOnUtc;
+
+    }
+
     [Key]
     public Guid Id { get; set; }
 
@@ -22,8 +49,8 @@ public class BookingEntity
     public Guid UserId { get; private set; }
     public User Users { get; private set; }
 
-    public DateOnly Start { get; private set; }
-    public DateOnly End { get; private set; }
+    public DateTime Start { get; private set; }
+    public DateTime End { get; private set; }
     public decimal PriceForPeriod { get; private set; }
     public decimal CleaningFee { get; private set; }
     public decimal AmenitiesUpCharge { get; private set; }
@@ -34,4 +61,36 @@ public class BookingEntity
     public DateTime? RejectedOnUtc { get; private set; }
     public DateTime? CompletedOnUtc { get; private set; }
     public DateTime? CancelledOnUtc { get; private set; }
+
+    public static BookingEntity CreateBooking(CreateBookingDto bookingDto,
+        Apartment apartment, decimal amenitiesUpCharge)
+    {
+        Guid id = new();
+
+        int days = (bookingDto.End.Day - bookingDto.Start.Day);
+
+        decimal pricePerPeriod = apartment.Price * days;
+
+        decimal cleaningFee = apartment.CleaningFee * days;
+
+        decimal totalPrice = pricePerPeriod + cleaningFee + amenitiesUpCharge;
+
+        DateTime date = DateTime.UtcNow;
+
+        var status = BookingStatus.Reserved;
+
+        return new BookingEntity(id,
+                                 bookingDto.UserId,
+                                 bookingDto.ApartmentId,
+                                 bookingDto.Start,
+                                 bookingDto.End,
+                                 pricePerPeriod,
+                                 cleaningFee,
+                                 amenitiesUpCharge,
+                                 totalPrice,
+                                 status,
+                                 date
+                                 );
+    }
+
 }

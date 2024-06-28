@@ -22,7 +22,7 @@ public class DeleteApartmentCommandHandler(
              .Where(x => x.Id == request.Id)
              .FirstOrDefaultAsync(cancellationToken);
 
-        if (apartment == null)
+        if (apartment is null)
         {
             throw new NotFoundException(nameof(apartment), request.Id);
         }

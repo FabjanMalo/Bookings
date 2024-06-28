@@ -6,27 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Bookings.Domain.Users;
-public class User
+public class User(Guid id, string firstName, string lastName, string email,
+    string password, DateTime createdOnUtc)
 {
-    public User(Guid id, string firstName, string lastName, string email,
-        string password, DateTime createdOnUtc)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        Password = password;
-        CreatedOnUtc = createdOnUtc;
-    }
-
     [Key]
-    public Guid Id { get; set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+    public Guid Id { get; set; } = id;
+    public string FirstName { get; private set; } = firstName;
+    public string LastName { get; private set; } = lastName;
+    public string Email { get; private set; } = email;
+    public string Password { get; private set; } = password;
 
-    public DateTime CreatedOnUtc { get; private set; }
+    public DateTime CreatedOnUtc { get; private set; } = createdOnUtc;
 
     public static User CreateUser(UserDto userDto)
     {

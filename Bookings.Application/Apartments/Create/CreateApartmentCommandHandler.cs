@@ -25,7 +25,7 @@ public class CreateApartmentCommandHandler : IRequestHandler<CreateApartmentComm
     public async Task<Guid> Handle(CreateApartmentCommand request, CancellationToken cancellationToken)
     {
 
-        var validationResult = await _validation.ValidateAsync(request);
+        var validationResult = await _validation.ValidateAsync(request,cancellationToken);
 
         if (!validationResult.IsValid)
         {

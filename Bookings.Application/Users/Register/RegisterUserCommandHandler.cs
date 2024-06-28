@@ -14,7 +14,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
 {
     private readonly IUserRepository _userRepository;
     private readonly IApplicationContext _applicationContext;
-    private readonly RegisterUserCommandValidation _validation ;
+    private readonly RegisterUserCommandValidation _validation;
 
 
     public RegisterUserCommandHandler(
@@ -28,9 +28,10 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
 
     public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = _validation.Validate(request);
+        var validationResult = await _validation.ValidateAsync(request, cancellationToken);
 
-        if (!validationResult.IsValid) {
+        if (!validationResult.IsValid)
+        {
 
             throw new ValidationException(validationResult.Errors);
         }
@@ -42,7 +43,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
             throw new Exception("Email is not unique. Try another!");
         }
 
-       var password = request.UserDto.Password;
+        var password = request.UserDto.Password;
 
         request.UserDto.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13);
 

@@ -15,7 +15,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
 {
     private readonly IApplicationContext _applicationContext;
     private readonly IUserRepository _userRepository;
-    private readonly  ChangePasswordUserValidation _validations;
+    private readonly ChangePasswordUserValidation _validations;
 
     public ChangePasswordCommandHandler(
         IApplicationContext applicationContext,
@@ -28,7 +28,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
     }
     public async Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = _validations.Validate( request );
+        var validationResult = await _validations.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
         {

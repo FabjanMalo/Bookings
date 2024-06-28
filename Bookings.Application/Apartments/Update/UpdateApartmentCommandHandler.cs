@@ -34,7 +34,7 @@ public class UpdateApartmentCommandHandler : IRequestHandler<UpdateApartmentComm
     }
     public async Task<Guid> Handle(UpdateApartmentCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validation.ValidateAsync(request);
+        var validationResult = await _validation.ValidateAsync(request,cancellationToken);
 
         if (!validationResult.IsValid)
         {

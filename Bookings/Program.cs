@@ -1,4 +1,6 @@
+using Bookings.Api;
 using Bookings.Application;
+using Bookings.Domain.Bookings;
 using Bookings.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.ConfigureApplicationServices();
 
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
