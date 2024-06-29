@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookings.Application.Apartments.Get;
 using Bookings.Application.Apartments.GetAll;
+using Bookings.Application.Bookings.Complete;
 using Bookings.Application.Users.ChangePassword;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
@@ -29,6 +30,8 @@ public class MappingProfile : Profile
 
 
         CreateMap<BookingEntity, CreateBookingDto>().ReverseMap();
+
+        CreateMap<BookingEntity, CompletedBookingDto>().ReverseMap();
 
 
     }

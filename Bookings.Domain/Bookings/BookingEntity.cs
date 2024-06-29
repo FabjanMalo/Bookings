@@ -62,6 +62,12 @@ public class BookingEntity
     public DateTime? CompletedOnUtc { get; private set; }
     public DateTime? CancelledOnUtc { get; private set; }
 
+
+    public void SetCompletedOnUtc(DateTime completedOnUtc)
+    {
+        CompletedOnUtc = completedOnUtc;
+    }
+
     public static BookingEntity CreateBooking(CreateBookingDto bookingDto,
         Apartment apartment, decimal amenitiesUpCharge)
     {

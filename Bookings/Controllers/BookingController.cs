@@ -1,4 +1,5 @@
-﻿using Bookings.Application.Bookings.Create;
+﻿using Bookings.Application.Bookings.Complete;
+using Bookings.Application.Bookings.Create;
 using Bookings.Domain.Bookings;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -20,4 +21,16 @@ public class BookingController(ISender _sender) : ControllerBase
         return Results.Ok(result);
 
     }
+
+    [HttpPut]
+    public async Task<IResult> CompletedOnUtc([FromBody] CompletedBookingDto bookingDto)
+    {
+        var booking = new CompletedBookingCommand { CompletedBookingDto = bookingDto };
+
+        await _sender.Send(booking);
+
+        return Results.NoContent();
+
+    }
+
 }
