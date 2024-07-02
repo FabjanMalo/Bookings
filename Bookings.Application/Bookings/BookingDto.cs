@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookings.Application.Bookings.Complete;
-public class CompletedBookingDto
+namespace Bookings.Application.Bookings;
+public class BookingDto
 {
     public Guid BookingId { get; init; }
     public Guid UserId { get; init; }

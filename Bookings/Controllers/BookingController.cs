@@ -1,5 +1,7 @@
-﻿using Bookings.Application.Bookings.Complete;
+﻿using Bookings.Application.Bookings;
+using Bookings.Application.Bookings.Complete;
 using Bookings.Application.Bookings.Create;
+using Bookings.Application.Bookings.Reject;
 using Bookings.Domain.Bookings;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +12,7 @@ namespace Bookings.Api.Controllers;
 [ApiController]
 public class BookingController(ISender _sender) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("Reserve")]
 
     public async Task<IResult> Create([FromBody] CreateBookingDto createBookingDto)
     {
@@ -22,10 +24,21 @@ public class BookingController(ISender _sender) : ControllerBase
 
     }
 
-    [HttpPut]
-    public async Task<IResult> CompletedOnUtc([FromBody] CompletedBookingDto bookingDto)
+    [HttpPut("CompletedOnUtc")]
+    public async Task<IResult> CompletedOnUtc([FromBody] BookingDto bookingDto)
     {
-        var booking = new CompletedBookingCommand { CompletedBookingDto = bookingDto };
+        var booking = new CompletedBookingCommand { BookingDto = bookingDto };
+
+        await _sender.Send(booking);
+
+        return Results.NoContent();
+
+    }
+
+    [HttpPut("RejectedOnUtc")]
+    public async Task<IResult> RejectedOnUtc([FromBody] BookingDto bookingDto)
+    {
+        var booking = new RejectBookingCommand { BookingDto = bookingDto };
 
         await _sender.Send(booking);
 

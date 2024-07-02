@@ -63,9 +63,15 @@ public class BookingEntity
     public DateTime? CancelledOnUtc { get; private set; }
 
 
-    public void SetCompletedOnUtc(DateTime completedOnUtc)
+    public void SetCompletedOnUtc(DateTime completedOnUtc, BookingStatus bookingStatus)
     {
         CompletedOnUtc = completedOnUtc;
+        Status = bookingStatus;
+    }
+    public void SetRejectdOnUtc(DateTime rejectedOnUtc, BookingStatus bookingStatus)
+    {
+        RejectedOnUtc = rejectedOnUtc;
+        Status = bookingStatus;
     }
 
     public static BookingEntity CreateBooking(CreateBookingDto bookingDto,
