@@ -1,5 +1,6 @@
 ﻿using Bookings.Application.Abstractions.Database;
 using Bookings.Application.Exceptions;
+using Bookings.Application.Mail;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
 using MediatR;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Bookings.Application.Bookings.Create;
 public class CreateBookingCommandHandler(
-    IApplicationContext applicationContext,
-    IBookingRepository bookingRepository) : IRequestHandler<CreateBookingCommand, Guid>
+    IApplicationContext _applicationContext,
+    IBookingRepository _bookingRepository,
+    IEmailSender _emailSender)
+    : IRequestHandler<CreateBookingCommand, Guid>
 {
-    private readonly IApplicationContext _applicationContext = applicationContext;
-    private readonly IBookingRepository _bookingRepository = bookingRepository;
     private readonly CreateBookingCommandValidation _validations = new();
 
     public async Task<Guid> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
@@ -78,6 +79,28 @@ public class CreateBookingCommandHandler(
             };
 
         }
+
+        var email = new Email
+        {
+            To = user.Email,
+            Subject = "Booking Confirmation Request",
+            Body = @$"Please confirm your booking from {request.CreateBookingDto.Start} 
+            to {request.CreateBookingDto.End} under the name {user.FirstName}{user.LastName}.
+            <a> href='http://www.example.com'>Confirm</a>
+            <a> href='http://www.example.com'>Reject</a>"
+        };
+
+        try
+        {
+            await _emailSender.SendEmail(email);
+
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("Failed to send confirmation email");
+        }
+
         var newBooking = BookingEntity
             .CreateBooking(request.CreateBookingDto, apartment, amenitiesUpCharge);
 
