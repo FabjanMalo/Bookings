@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Bookings.Application.Bookings.Reject;
-public class RejectBookingCommandHandler(IApplicationContext _applicationContext) : IRequestHandler<RejectBookingCommand>
+namespace Bookings.Application.Bookings.Cancel;
+public class CancelBookingCommandHandler(
+    IApplicationContext _applicationContext)
+    : IRequestHandler<CancelBookingCommand>
 {
-    public async Task Handle(RejectBookingCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CancelBookingCommand request, CancellationToken cancellationToken)
     {
         var booking = await _applicationContext
            .Bookings
@@ -26,18 +27,21 @@ public class RejectBookingCommandHandler(IApplicationContext _applicationContext
 
         if (booking.UserId != request.BookingDto.UserId)
         {
-            throw new UnauthorizedAccessException("You are not authorized to reject this booking.");
+            throw new UnauthorizedAccessException("You are not authorized to cancel this booking.");
         }
 
-        if (!(booking.Status == BookingStatus.Reserved || booking.Status == BookingStatus.Confirmed))
+        if (booking.Status == BookingStatus.Completed)
         {
-            throw new Exception("Cannot reject booking because it has been cancelled or completed.");
+            throw new Exception("Cannot cancel a completed booking");
         }
 
+        if (booking.Start < DateTime.UtcNow && booking.End > DateTime.UtcNow)
+        {
+            throw new Exception("Cancellations are not allowed after the booking period has started.");
+        }
 
-        booking.SetRejectedOnUtc(DateTime.UtcNow, BookingStatus.Rejected);
+        booking.SetCancelledOnUtc(DateTime.UtcNow, BookingStatus.Cancelled);
 
         await _applicationContext.SaveChangesAsync(cancellationToken);
-
     }
 }

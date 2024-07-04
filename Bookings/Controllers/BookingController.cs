@@ -1,4 +1,5 @@
 ﻿using Bookings.Application.Bookings;
+using Bookings.Application.Bookings.Cancel;
 using Bookings.Application.Bookings.Complete;
 using Bookings.Application.Bookings.Create;
 using Bookings.Application.Bookings.Reject;
@@ -39,6 +40,17 @@ public class BookingController(ISender _sender) : ControllerBase
     public async Task<IResult> RejectedOnUtc([FromBody] BookingDto bookingDto)
     {
         var booking = new RejectBookingCommand { BookingDto = bookingDto };
+
+        await _sender.Send(booking);
+
+        return Results.NoContent();
+
+    }
+
+    [HttpPut("CanelledOnUtc")]
+    public async Task<IResult> CanelledOnUtc([FromBody] BookingDto bookingDto)
+    {
+        var booking = new CancelBookingCommand { BookingDto = bookingDto };
 
         await _sender.Send(booking);
 
