@@ -78,6 +78,12 @@ public class BookingEntity
         CancelledOnUtc = cancelledOnUtc;
         Status = bookingStatus;
     }
+
+    public void SetConfirmedOnUtc(DateTime confirmedOnUtc, BookingStatus bookingStatus)
+    {
+        ConfirmedOnUtc = confirmedOnUtc;
+        Status = bookingStatus;
+    }
     public static BookingEntity CreateBooking(CreateBookingDto bookingDto,
         Apartment apartment, decimal amenitiesUpCharge)
     {
