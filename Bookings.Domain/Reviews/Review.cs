@@ -7,9 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookings.Domain;
+namespace Bookings.Domain.Reviews;
 public class Review
 {
+    public Review(Guid id, Guid bookingId, int rating, string? comment, DateTime createdOnUtc)
+    {
+        Id = id;
+        BookingId = bookingId;
+        Rating = rating;
+        Comment = comment;
+        CreatedOnUtc = createdOnUtc;
+    }
+
     [Key]
     public Guid Id { get; set; }
 
@@ -20,4 +29,13 @@ public class Review
     public int Rating { get; private set; }
     public string? Comment { get; private set; }
     public DateTime CreatedOnUtc { get; private set; }
+
+    public static Review CreateReview(CreateReviewDto reviewDto)
+    {
+        Guid id = new();
+
+        var createdOnUtc = DateTime.UtcNow;
+
+        return new Review(id, reviewDto.BookingId, reviewDto.Rating, reviewDto.Comment, createdOnUtc);
+    }
 }

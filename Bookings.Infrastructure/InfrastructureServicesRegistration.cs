@@ -3,11 +3,13 @@ using Bookings.Application.Apartments;
 using Bookings.Application.Bookings;
 using Bookings.Application.Contracts;
 using Bookings.Application.Mail;
+using Bookings.Application.Reviews;
 using Bookings.Application.Users;
 using Bookings.Infrastructure.Apartments;
 using Bookings.Infrastructure.Bookings;
 using Bookings.Infrastructure.Contracts;
 using Bookings.Infrastructure.Mail;
+using Bookings.Infrastructure.Reviews;
 using Bookings.Infrastructure.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +42,8 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IBookingRepository, BookingRepository>();
+
+        services.AddScoped<IReviewRepository, ReviewRepository>();
 
 
         services.AddTransient<IEmailSender, EmailSender>();

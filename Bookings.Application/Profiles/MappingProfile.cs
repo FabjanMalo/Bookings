@@ -5,6 +5,7 @@ using Bookings.Application.Bookings;
 using Bookings.Application.Users.ChangePassword;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
+using Bookings.Domain.Reviews;
 using Bookings.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ public class MappingProfile : Profile
         CreateMap<BookingEntity, CreateBookingDto>().ReverseMap();
 
         CreateMap<BookingEntity, BookingDto>().ReverseMap();
+
+
+        CreateMap<Review, CreateReviewDto>().ReverseMap();
 
 
     }

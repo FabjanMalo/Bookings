@@ -1,5 +1,6 @@
 ﻿using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
+using Bookings.Domain.Reviews;
 using Bookings.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,6 +17,8 @@ public interface IApplicationContext
     public DbSet<User> Users { get; }
 
     public DbSet<BookingEntity> Bookings { get; }
+
+    public DbSet<Review> Reviews { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
