@@ -18,6 +18,6 @@ public class Review
     public BookingEntity Booking { get; set; }
 
     public int Rating { get; private set; }
-    public string Comment { get; private set; }
+    public string? Comment { get; private set; }
     public DateTime CreatedOnUtc { get; private set; }
 }

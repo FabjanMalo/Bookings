@@ -1,4 +1,5 @@
 ﻿using Bookings.Application.Mail;
+using Bookings.Domain.Users;
 using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic.FileIO;
@@ -11,21 +12,32 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Bookings.Infrastructure.Mail;
-public class EmailSender(IOptions<EmailSettings> options) : IEmailSender
+public class EmailSender(
+    IOptions<EmailSettings> settingsOptions,
+    IOptions<Email> emailOptions)
+    : IEmailSender
 {
-    private readonly EmailSettings _emailSettings = options.Value;
+    private readonly EmailSettings _emailSettings = settingsOptions.Value;
 
-    public async Task<bool> SendEmail(Email email)
+    private readonly Email _email = emailOptions.Value;
+
+    public async Task<bool> SendEmail(User user, DateTime startDate, DateTime endDate)
     {
         var client = new SendGridClient(_emailSettings.ApiKey);
-        var to = new EmailAddress(email.To);
+        var to = new EmailAddress(user.Email);
         var from = new EmailAddress
         {
             Email = _emailSettings.FromAdress,
             Name = _emailSettings.FromName
         };
 
-        var mesagge = MailHelper.CreateSingleEmail(from, to, email.Subject, email.Body, email.Body);
+        var body = _email.Body.Replace("{startDate}", startDate.ToString())
+            .Replace("{endDate}", endDate.ToString())
+            .Replace("{firstName}", user.FirstName)
+            .Replace("{lastName}", user.LastName);
+
+        var mesagge = MailHelper.CreateSingleEmail(from, to, _email.Subject, body, body);
+
 
         var response = await client.SendEmailAsync(mesagge);
 

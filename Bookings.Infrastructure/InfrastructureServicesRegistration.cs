@@ -46,6 +46,8 @@ public static class InfrastructureServicesRegistration
 
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
+        services.Configure<Email>(configuration.GetSection("EmailTemplates").GetSection("BookingReserved"));
+
         return services;
     }
 }

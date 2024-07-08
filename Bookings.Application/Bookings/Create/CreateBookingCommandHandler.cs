@@ -3,6 +3,7 @@ using Bookings.Application.Exceptions;
 using Bookings.Application.Mail;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
+using Bookings.Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -80,19 +81,9 @@ public class CreateBookingCommandHandler(
 
         }
 
-        var email = new Email
-        {
-            To = user.Email,
-            Subject = "Booking Confirmation Request",
-            Body = @$"Please confirm your booking from {request.CreateBookingDto.Start} 
-            to {request.CreateBookingDto.End} under the name {user.FirstName}{user.LastName}.
-            <a> href='http://www.example.com'>Confirm</a>
-            <a> href='http://www.example.com'>Reject</a>"
-        };
-
         try
         {
-            await _emailSender.SendEmail(email);
+            await _emailSender.SendEmail(user,request.CreateBookingDto.Start,request.CreateBookingDto.End);
 
         }
         catch (Exception)
