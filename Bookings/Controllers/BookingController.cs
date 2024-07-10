@@ -3,6 +3,7 @@ using Bookings.Application.Bookings.Cancel;
 using Bookings.Application.Bookings.Complete;
 using Bookings.Application.Bookings.Confirm;
 using Bookings.Application.Bookings.Create;
+using Bookings.Application.Bookings.GetOverview;
 using Bookings.Application.Bookings.Reject;
 using Bookings.Domain.Bookings;
 using MediatR;
@@ -70,4 +71,13 @@ public class BookingController(ISender _sender) : ControllerBase
 
     }
 
+    [HttpGet]
+    public async Task<IResult> GetAll([FromQuery] SearchBookingDto bookingDto)
+    {
+        var query = new GetBookingOverviewQuery { SearchBookingDto = bookingDto };
+
+        var result = await _sender.Send(query);
+
+        return Results.Ok(result);
+    }
 }

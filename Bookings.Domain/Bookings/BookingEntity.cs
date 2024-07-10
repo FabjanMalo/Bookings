@@ -1,4 +1,5 @@
 ﻿using Bookings.Domain.Apartments;
+using Bookings.Domain.Reviews;
 using Bookings.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -43,11 +44,13 @@ public class BookingEntity
 
     [ForeignKey(nameof(Apartment))]
     public Guid ApartmentId { get; private set; }
-    public Apartment Apartments { get; private set; }
+    public Apartment Apartment { get; private set; }
 
     [ForeignKey(nameof(User))]
     public Guid UserId { get; private set; }
-    public User Users { get; private set; }
+    public User User { get; private set; }
+
+    public Review Review { get; private set; }
 
     public DateTime Start { get; private set; }
     public DateTime End { get; private set; }

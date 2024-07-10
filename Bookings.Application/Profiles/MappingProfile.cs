@@ -2,6 +2,7 @@
 using Bookings.Application.Apartments.Get;
 using Bookings.Application.Apartments.GetAll;
 using Bookings.Application.Bookings;
+using Bookings.Application.Bookings.GetOverview;
 using Bookings.Application.Users.ChangePassword;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;

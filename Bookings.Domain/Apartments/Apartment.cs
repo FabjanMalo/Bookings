@@ -30,7 +30,7 @@ public class Apartment
     public decimal CleaningFee { get; private set; }
     public DateTime? LastBookedOnUtc { get; private set; }
 
-    public List<Amenity> Amenities { get; private set; } = new();
+    public List<Amenity> Amenities { get; private set; } = [];
 
     public static Apartment Create(CreateApartmentDto apartmentDto)
     {

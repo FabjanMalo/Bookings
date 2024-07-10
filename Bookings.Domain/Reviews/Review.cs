@@ -32,7 +32,7 @@ public class Review
 
     public static Review CreateReview(CreateReviewDto reviewDto)
     {
-        Guid id = new();
+        var id = Guid.NewGuid();
 
         var createdOnUtc = DateTime.UtcNow;
 

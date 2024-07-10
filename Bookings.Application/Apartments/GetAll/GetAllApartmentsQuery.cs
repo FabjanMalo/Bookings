@@ -9,4 +9,5 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Apartments.GetAll;
 public class GetAllApartmentsQuery : IRequest<List<ApartmentDto>>
 {
+
 }
