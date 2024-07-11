@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Bookings.GetOverview;
 public class SearchBookingDto
 {
-    public string? SearchKey { get; set; }
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
+    public string? SearchKey { get; init; }
+    public DateTime? StartDate { get; init; }
+    public DateTime? EndDate { get; init; }
+    public int PageNumber { get; init; } = 1;
+    public int PageSize { get; init; } = 10;
 }

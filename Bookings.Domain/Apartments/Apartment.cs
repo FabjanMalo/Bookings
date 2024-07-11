@@ -34,7 +34,7 @@ public class Apartment
 
     public static Apartment Create(CreateApartmentDto apartmentDto)
     {
-        var id = new Guid();
+        var id = Guid.NewGuid();
 
         return new Apartment(id, apartmentDto.Name, apartmentDto.Address, apartmentDto.Price,
             apartmentDto.Description, apartmentDto.CleaningFee, apartmentDto.Amenities);

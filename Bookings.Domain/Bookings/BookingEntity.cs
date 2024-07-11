@@ -90,7 +90,7 @@ public class BookingEntity
     public static BookingEntity CreateBooking(CreateBookingDto bookingDto,
         Apartment apartment, decimal amenitiesUpCharge)
     {
-        Guid id = new();
+        var id = Guid.NewGuid();
 
         int days = (bookingDto.End.Day - bookingDto.Start.Day);
 

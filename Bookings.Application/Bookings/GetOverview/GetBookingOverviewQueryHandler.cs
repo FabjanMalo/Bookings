@@ -69,6 +69,18 @@ public class GetBookingOverviewQueryHandler(
 
         }
 
+
+        if (request.SearchBookingDto.PageNumber <= 0
+            || request.SearchBookingDto.PageSize <= 0)
+        {
+            throw new Exception("Page number and page size must be greater than 0.");
+        }
+
+        overview = overview
+            .Skip((request.SearchBookingDto.PageNumber - 1) * request.SearchBookingDto.PageSize)
+            .Take(request.SearchBookingDto.PageSize);
+
+
         return await overview.ToListAsync(cancellationToken);
     }
 }
