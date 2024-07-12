@@ -1,10 +1,13 @@
 ﻿using Bookings.Application.Abstractions.Database;
 using Bookings.Application.Apartments.GetAll;
+using Bookings.Domain.Bookings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +16,7 @@ public class GetBookingOverviewQueryHandler(
     IApplicationContext _applicationContext)
     : IRequestHandler<GetBookingOverviewQuery, List<GetBookingOverviewDto>>
 {
+
     public async Task<List<GetBookingOverviewDto>> Handle(GetBookingOverviewQuery request, CancellationToken cancellationToken)
     {
 
@@ -59,7 +63,7 @@ public class GetBookingOverviewQueryHandler(
         }
 
 
-        if (request.SearchBookingDto.SearchKey != null)
+        if (!String.IsNullOrWhiteSpace(request.SearchBookingDto.SearchKey))
         {
             overview = overview
                  .Where(c => c.FirstName.Contains(request.SearchBookingDto.SearchKey)
@@ -68,6 +72,16 @@ public class GetBookingOverviewQueryHandler(
                  || c.ApartmentAddress.Contains(request.SearchBookingDto.SearchKey));
 
         }
+
+        if (!String.IsNullOrWhiteSpace(request.SearchBookingDto.SortingColumnName))
+        {
+            overview = GetSort(
+                request.SearchBookingDto.SortingColumnName,
+                overview,
+                request.SearchBookingDto.IsAscending);
+
+        }
+
 
 
         if (request.SearchBookingDto.PageNumber <= 0
@@ -83,4 +97,35 @@ public class GetBookingOverviewQueryHandler(
 
         return await overview.ToListAsync(cancellationToken);
     }
+
+    private IOrderedQueryable<GetBookingOverviewDto> GetSort(
+        string columnName,
+        IQueryable<GetBookingOverviewDto> query,
+        bool isAscending)
+    {
+        Expression<Func<GetBookingOverviewDto, object>> key =
+            columnName.ToLower() switch
+            {
+                "firstname" => x => x.FirstName,
+                "lastname" => x => x.LastName,
+                "apartmentname" => x => x.ApartmentName,
+                "enddate" => x => x.EndDate,
+                "startdate" => x => x.StartDate,
+                "apartmentaddress" => x => x.ApartmentAddress,
+                "apartmentprice" => x => x.ApartmentPrice,
+                "totalbookingprice" => x => x.TotalBookingPrice,
+                _ => x => x.BookingId,
+            };
+
+        if (isAscending)
+        {
+            return query.OrderBy(key);
+        }
+        else
+        {
+            return query.OrderByDescending(key);
+        }
+
+    }
+
 }
