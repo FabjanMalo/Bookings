@@ -1,6 +1,7 @@
 ﻿using Bookings.Application.Abstractions.Database;
 using Bookings.Application.Apartments;
 using Bookings.Application.Bookings;
+using Bookings.Application.Bookings.Create;
 using Bookings.Application.Contracts;
 using Bookings.Application.Mail;
 using Bookings.Application.Reviews;
@@ -51,6 +52,11 @@ public static class InfrastructureServicesRegistration
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
         services.Configure<Email>(configuration.GetSection("EmailTemplates").GetSection("BookingReserved"));
+
+
+        services.AddSignalR();
+        services.AddTransient<IBookingReserveHubService, BookingReserveHubService>();
+
 
         return services;
     }

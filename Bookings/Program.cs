@@ -2,6 +2,7 @@ using Bookings.Api;
 using Bookings.Application;
 using Bookings.Domain.Bookings;
 using Bookings.Infrastructure;
+using Bookings.Infrastructure.Bookings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHub<BookingReserveHub>("/bookingNotification");
 
 app.UseHttpsRedirection();
 

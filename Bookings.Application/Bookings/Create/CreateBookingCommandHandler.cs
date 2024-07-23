@@ -16,7 +16,8 @@ namespace Bookings.Application.Bookings.Create;
 public class CreateBookingCommandHandler(
     IApplicationContext _applicationContext,
     IBookingRepository _bookingRepository,
-    IEmailSender _emailSender)
+    IEmailSender _emailSender,
+    IBookingReserveHubService _bookingReserveHub)
     : IRequestHandler<CreateBookingCommand, Guid>
 {
     private readonly CreateBookingCommandValidation _validations = new();
@@ -83,7 +84,7 @@ public class CreateBookingCommandHandler(
 
         try
         {
-            await _emailSender.SendEmail(user,request.CreateBookingDto.Start,request.CreateBookingDto.End);
+            await _emailSender.SendEmail(user, request.CreateBookingDto.Start, request.CreateBookingDto.End);
 
         }
         catch (Exception)
@@ -96,6 +97,9 @@ public class CreateBookingCommandHandler(
             .CreateBooking(request.CreateBookingDto, apartment, amenitiesUpCharge);
 
         await _bookingRepository.Add(newBooking);
+
+        await _bookingReserveHub.SendMessageToAllClients(
+            $"Booking successfully reserved: Id {newBooking.Id}, Apartment {newBooking.Apartment.Name}");
 
         await _applicationContext.SaveChangesAsync(cancellationToken);
 
