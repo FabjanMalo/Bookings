@@ -2,6 +2,7 @@
 using Bookings.Application.Exceptions;
 using Bookings.Domain.Apartments;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,20 @@ public class CreateApartmentCommandHandler : IRequestHandler<CreateApartmentComm
     public async Task<Guid> Handle(CreateApartmentCommand request, CancellationToken cancellationToken)
     {
 
-        var validationResult = await _validation.ValidateAsync(request,cancellationToken);
+        var validationResult = await _validation.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
         {
 
             throw new ValidationException(validationResult.Errors);
+        }
+
+        var apartmentOwner = await _applicationContext.ApartmentOwners
+            .FirstOrDefaultAsync(c => c.Id == request.CreateApartmentDto.OwnerId, cancellationToken);
+
+        if (apartmentOwner is null)
+        {
+            throw new NotFoundException(nameof(apartmentOwner), request.CreateApartmentDto.OwnerId);
         }
 
         var uniqueApartment = await _apartmentRepository
@@ -41,7 +50,7 @@ public class CreateApartmentCommandHandler : IRequestHandler<CreateApartmentComm
             throw new Exception("Apartment name is not unique. Try another name!");
         }
 
-        var apartment = Apartment.Create(request.CreateApartmentDto);
+        var apartment = Apartment.Create(request.CreateApartmentDto, apartmentOwner);
 
         await _apartmentRepository.Add(apartment);
 

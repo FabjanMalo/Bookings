@@ -34,7 +34,7 @@ public class UpdateApartmentCommandHandler : IRequestHandler<UpdateApartmentComm
     }
     public async Task<Guid> Handle(UpdateApartmentCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = await _validation.ValidateAsync(request,cancellationToken);
+        var validationResult = await _validation.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
         {
@@ -46,6 +46,11 @@ public class UpdateApartmentCommandHandler : IRequestHandler<UpdateApartmentComm
             .Where(c => c.Id == request.ApartmentDetailDto.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
+        if (apartment is null)
+        {
+            throw new NotFoundException(nameof(apartment), request.ApartmentDetailDto.Id);
+        }
+
         _mapper.Map(request.ApartmentDetailDto, apartment);
 
         _apartmentRepository.Update(apartment);
@@ -54,9 +59,9 @@ public class UpdateApartmentCommandHandler : IRequestHandler<UpdateApartmentComm
             await _applicationContext.SaveChangesAsync(cancellationToken);
 
         }
-        catch (Exception )
+        catch (Exception)
         {
-            _logger.LogError("Error updating apartment {Id}",apartment.Id);
+            _logger.LogError("Error updating apartment {Id}", apartment.Id);
 
             throw new Exception("Duplicate Name.");
         }

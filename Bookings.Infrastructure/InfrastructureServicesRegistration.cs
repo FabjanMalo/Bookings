@@ -1,4 +1,5 @@
 ﻿using Bookings.Application.Abstractions.Database;
+using Bookings.Application.Owners;
 using Bookings.Application.Apartments;
 using Bookings.Application.Bookings;
 using Bookings.Application.Bookings.Create;
@@ -20,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bookings.Infrastructure.Owners;
 
 namespace Bookings.Infrastructure;
 public static class InfrastructureServicesRegistration
@@ -45,6 +47,8 @@ public static class InfrastructureServicesRegistration
         services.AddScoped<IBookingRepository, BookingRepository>();
 
         services.AddScoped<IReviewRepository, ReviewRepository>();
+
+        services.AddScoped<IApartmentOwnerRepository, ApartmentOwnerRepository>();
 
 
         services.AddTransient<IEmailSender, EmailSender>();

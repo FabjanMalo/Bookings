@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bookings.Domain.ApartmentOwners;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,12 +32,18 @@ public class Apartment
     public DateTime? LastBookedOnUtc { get; private set; }
 
     public List<Amenity> Amenities { get; private set; } = [];
+    public List<ApartmentOwner> ApartmentOwners { get; } = [];
 
-    public static Apartment Create(CreateApartmentDto apartmentDto)
+
+    public static Apartment Create(CreateApartmentDto apartmentDto, ApartmentOwner apartmentOwners)
     {
         var id = Guid.NewGuid();
 
-        return new Apartment(id, apartmentDto.Name, apartmentDto.Address, apartmentDto.Price,
+        var apartment = new Apartment(id, apartmentDto.Name, apartmentDto.Address, apartmentDto.Price,
             apartmentDto.Description, apartmentDto.CleaningFee, apartmentDto.Amenities);
+
+        apartment.ApartmentOwners.Add(apartmentOwners);
+
+        return apartment;
     }
 }

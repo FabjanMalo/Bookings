@@ -9,20 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Bookings.Infrastructure.Apartments;
-public class ApartmentRepository : GenericRepository<Apartment>, IApartmentRepository
+public class ApartmentRepository(BookingsDbContext dbContext) : GenericRepository<Apartment>(dbContext), IApartmentRepository
 {
-    private readonly BookingsDbContext _dbContext;
-
-    public ApartmentRepository(BookingsDbContext dbContext) : base(dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly BookingsDbContext _dbContext = dbContext;
 
     public async Task<bool> IsNameUnique(string name, CancellationToken cancellationToken)
     {
         var isUnique = await _dbContext.Apartments
             .Where(c => c.Name == name).ToListAsync(cancellationToken);
 
-        return !isUnique.Any();
+        return isUnique.Count == 0;
     }
 }

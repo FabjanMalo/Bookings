@@ -3,7 +3,9 @@ using Bookings.Application.Apartments.Get;
 using Bookings.Application.Apartments.GetAll;
 using Bookings.Application.Bookings;
 using Bookings.Application.Bookings.GetOverview;
+using Bookings.Application.Owners.Update;
 using Bookings.Application.Users.ChangePassword;
+using Bookings.Domain.ApartmentOwners;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
 using Bookings.Domain.Reviews;
@@ -36,7 +38,15 @@ public class MappingProfile : Profile
         CreateMap<BookingEntity, BookingDto>().ReverseMap();
 
 
+
         CreateMap<Review, CreateReviewDto>().ReverseMap();
+
+
+
+        CreateMap<ApartmentOwner, CreateApartmentOwnerDto>().ReverseMap();
+
+        CreateMap<ApartmentOwner, UpdateOwnerDto>().ReverseMap();
+
 
 
     }

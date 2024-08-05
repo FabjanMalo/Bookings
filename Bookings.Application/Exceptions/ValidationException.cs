@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 namespace Bookings.Application.Exceptions;
 public class ValidationException : Exception
 {
-    List<ValidationFailure> Errors { get; set; } = [];
+    public List<ValidationFailure> Errors { get; set; } = [];
 
-    public ValidationException(List<ValidationFailure> errors)
+    public ValidationException(List<ValidationFailure> errors) 
     {
         Errors = errors;
     }
-} 
+}

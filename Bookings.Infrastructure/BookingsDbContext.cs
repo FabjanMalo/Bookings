@@ -1,4 +1,5 @@
 ﻿using Bookings.Application.Abstractions.Database;
+using Bookings.Domain.ApartmentOwners;
 using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
 using Bookings.Domain.Reviews;
@@ -17,6 +18,8 @@ public class BookingsDbContext : DbContext, IApplicationContext
     public DbSet<BookingEntity> Bookings => Set<BookingEntity>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<ApartmentOwner> ApartmentOwners => Set<ApartmentOwner>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

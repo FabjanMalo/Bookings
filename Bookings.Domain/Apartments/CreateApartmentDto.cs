@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Bookings.Domain.Apartments;
 public class CreateApartmentDto
 {
+    public Guid OwnerId { get; set; }
     public string Name { get; init; }
     public string Address { get; init; }
     public decimal Price { get; init; }

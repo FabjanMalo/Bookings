@@ -1,4 +1,5 @@
-﻿using Bookings.Domain.Apartments;
+﻿using Bookings.Domain.ApartmentOwners;
+using Bookings.Domain.Apartments;
 using Bookings.Domain.Bookings;
 using Bookings.Domain.Reviews;
 using Bookings.Domain.Users;
@@ -19,6 +20,7 @@ public interface IApplicationContext
     public DbSet<BookingEntity> Bookings { get; }
 
     public DbSet<Review> Reviews { get; }
+    public DbSet<ApartmentOwner> ApartmentOwners { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
